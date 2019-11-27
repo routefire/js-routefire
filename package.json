@@ -1,4 +1,8 @@
 {
     "name": "@steven4354/js-routefire",
-    "version": "1.0.1"
+    "version": "1.0.2",
+    "dependencies": {
+        "axios": "^0.19.0",
+        "lodash": "^4.17.15"
+    }
 }
