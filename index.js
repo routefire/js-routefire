@@ -41,9 +41,12 @@ class RoutefireClient {
     async doPostRequest(url, body) {
         await this.refreshToken();
 
-        // set up auth
-        
-        const res = await this.client.post(url, body).then((res) => {
+        const res = await this.client.post(url, body, {
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'Authorization': `Bearer ${this.token}`
+            }
+        }).then((res) => {
             return res.data
         }).catch((err) => {
             return err
@@ -69,9 +72,45 @@ class RoutefireClient {
             "price":       price,
             "algo":        algo,
             "algo_params": algoParams,
+        };
+
+        const resp = await this.doPostRequest("/orders/submit", body);
+        return resp
+    }
+
+    // Function GetOrderStatus gets the current status of a Routefire (algorithm) order,
+    // to include amount filled and order open/closed flag.
+    async getOrderStatus(orderId) {
+        const body = {
+            "user_id":  this.username,
+            "order_id": orderId,
         }
 
-        await this.doPostRequest()
+        const resp = await this.doPostRequest("/orders/status", body)
+        return resp
+    }
+
+    // Function CancelOrder cancels a Routefire (algorithm) order.
+    async cancelOrder(orderId) {
+        const body = {
+            "user_id":  this.username,
+            "order_id": orderId,
+        }
+
+        const resp = await this.doPostRequest("/orders/cancel", body)
+        return resp
+    }
+
+    // Function GetBalances gets the balances at each available trading venue for
+    // a given uid.
+    async getBalances(asset) {
+        const body = {
+            "uid":   this.username,
+            "asset": asset,
+        }
+
+        const resp = await this.doPostRequest("/data/balances", body);
+        return resp
     }
 
 
