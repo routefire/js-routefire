@@ -74,7 +74,7 @@ class RoutefireClient {
             "algo_params": algoParams,
         };
 
-        const resp = await this.doPostRequest("/orders/submit", body);
+        const resp = await this.doPostRequest("/api/v1/orders/submit", body);
         return resp
     }
 
@@ -86,7 +86,7 @@ class RoutefireClient {
             "order_id": orderId,
         }
 
-        const resp = await this.doPostRequest("/orders/status", body)
+        const resp = await this.doPostRequest("/api/v1/orders/status", body)
         return resp
     }
 
@@ -97,7 +97,7 @@ class RoutefireClient {
             "order_id": orderId,
         }
 
-        const resp = await this.doPostRequest("/orders/cancel", body)
+        const resp = await this.doPostRequest("/api/v1/orders/cancel", body)
         return resp
     }
 
@@ -109,7 +109,7 @@ class RoutefireClient {
             "asset": asset,
         }
 
-        const resp = await this.doPostRequest("/data/balances", body);
+        const resp = await this.doPostRequest("/api/v1/data/balances", body);
         return resp
     }
 
