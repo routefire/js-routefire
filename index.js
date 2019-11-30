@@ -113,10 +113,37 @@ class RoutefireClient {
         return resp
     }
 
+    // Function GetOrderBookStats fetches key statistics from the order book for a
+    // prospective trade. The quantity provided is used to compute the "sweep cost,"
+    // or best theoretically available price given available liquidity.
+    async getOrderBookStats(buyAsset, sellAsset, quantity) {
+        const body = {
+            "uid":        this.username,
+            "buy_asset":  buyAsset,
+            "sell_asset": sellAsset,
+            "qty":        quantity,
+        }
+
+        const resp = await this.doPostRequest("/api/v1/data/inquire", body);
+        return resp
+    }
+
+    // Function GetConsolidatedOrderBook fetches the order book for a given pair across exchanges.
+    async getConsolidatedOrderBook(buyAsset, sellAsset) {
+        const body = {
+            "uid":        this.username,
+            "buy_asset":  buyAsset,
+            "sell_asset": sellAsset,
+            "quantity":   "",
+        }
+
+        const resp = await this.doPostRequest("/api/v1/data/consolidated", body);
+        return resp
+    }
 
     // Function SubmitOrderDMA submits a DMA (direct market access) order -- that is, an
     // order submitted directly to a given trading venue.
-    submitOrderDMA(asset, baseAsset, side, quantity, price, orderParams) {
+    async submitOrderDMA(asset, baseAsset, side, quantity, price, orderParams) {
         /*
         venue - GDAX, CBPRO, GEMINI, see routefire api docs for full list https://routefire.io/dev
         baseAsset - BTC, USD, see routefire api docs for full list https://routefire.io/dev
