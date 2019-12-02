@@ -43,7 +43,7 @@ class RoutefireClient {
 
         const res = await this.client.post(url, body, {
             headers: {
-                'content-type': 'application/x-www-form-urlencoded',
+                // 'content-type': 'application/x-www-form-urlencoded',
                 'Authorization': `Bearer ${this.token}`
             }
         }).then((res) => {
@@ -143,13 +143,51 @@ class RoutefireClient {
 
     // Function SubmitOrderDMA submits a DMA (direct market access) order -- that is, an
     // order submitted directly to a given trading venue.
-    async submitOrderDMA(asset, baseAsset, side, quantity, price, orderParams) {
+    async submitOrderDMA(venue, asset, baseAsset, side, quantity, price, orderParams) {
         /*
         venue - GDAX, CBPRO, GEMINI, see routefire api docs for full list https://routefire.io/dev
         baseAsset - BTC, USD, see routefire api docs for full list https://routefire.io/dev
         asset - BTC, USD, see routefire api docs for full list https://routefire.io/dev
         ...
         */
+
+       const body = {
+            "user_id": this.username,
+            "venue": venue,
+            "side": side,
+            "traded_asset": asset,
+            "base_asset": baseAsset,
+            "quantity": quantity,
+            "price": price,
+            "order_params": orderParams
+        };
+
+        const resp = await this.doPostRequest("/api/v1/orders/new", body);
+        return resp
+    }
+
+    // Function OrderStatusDMA gets order status and fill amount from a given venue and order ID.
+    async orderStatusDMA(venue, venueOrdId) {
+        const body = {
+            "user_id": this.username,
+            "venue": venue,
+            "venue_order_id": venueOrdId, 
+        };
+
+
+        const resp = await this.doPostRequest("/api/v1/orders/status", body)
+        return resp
+    }
+
+    async cancelOrderDMA(venue, venueOrdId) {
+        const body = {
+            "user_id": this.username,
+            "venue": venue,
+            "venue_order_id": venueOrdId, 
+        };
+
+        const resp = await this.doPostRequest("/api/v1/orders/cancel", body)
+        return resp
     }
 }
 
