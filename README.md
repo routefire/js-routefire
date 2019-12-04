@@ -10,7 +10,7 @@ stable, unified API.
 Can be installed with NPM via:
 
 ```bash
-npm i ....
+npm install js-routefire
 ```
 
 ### Importing 
