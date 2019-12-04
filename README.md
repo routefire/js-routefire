@@ -82,13 +82,13 @@ the `OrderId` field of `resp`. This ID can be used in subsequent calls to either
 the status of or cancel the order. For example:
 
 ```go
-status = rfClient.getOrderStatus(resp.OrderId)
+status = rfClient.getOrderStatus(resp['order_id'])
 ```
 
 Or:
 
 ```go
-status = rfClient.cancelOrder(resp.OrderId)
+status = rfClient.cancelOrder(resp['order_id'])
 ```
 
 #### Handling numbers
