@@ -1,10 +1,11 @@
 const Routefire = require("../index")
 
-// const rfClient = new Routefire("<your-routefire-user>", "<your-routefire-password>")
+// @dev update this line before running tests
+const rfClient = new Routefire("<your-routefire-user>", "<your-routefire-password>")
 
+// ensuring you entered your username
 const username = rfClient.getUsername()
-
-console.log("username ", username)
+console.log("Your username ", username)
 
 const testRun = async () => {
   const res = await rfClient.refreshToken()

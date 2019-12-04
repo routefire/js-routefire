@@ -18,7 +18,7 @@ npm install js-routefire
 Simply import as normal: 
 
 ```javascript
-import blah blah ???
+const Routefire = require("../index")
 ``` 
 
 ### Getting an account
@@ -32,8 +32,8 @@ to obtain a free account supporting all DMA features.
 The simplest way to use the API is using username/password authentication. To do this,
 simply call the `New` function:
 
-```go
-client := routefire.New(username, password)
+```javascript
+const rfClient = new Routefire("<your-routefire-user>", "<your-routefire-password>")
 ```
 
 ### Direct market access (DMA) orders
@@ -44,9 +44,11 @@ a trade, instead of using an algorithm to decide the optimal way to enter the or
 (A standard free Routefire account is a DMA account.)
 
 The DMA API is available via the methods ending in `*DMA`: 
-- `SubmitOrderDMA`: submit an order to a trading venue
-- `OrderStatusDMA`: get order status from a trading venue
-- `CancelOrderDMA`: cancel a given order at a trading venue
+- `submitOrderDMA`: submit an order to a trading venue
+- `orderStatusDMA`: get order status from a trading venue
+- `cancelOrderDMA`: cancel a given order at a trading venue
+
+<!-- will be added to this package in next release -->
 - `GetConsolidatedOrderBookDMA`: get consolidated order book across trading venues 
 - `BalanceDMA`: get balance for a given asset at a given venue 
 
@@ -58,16 +60,16 @@ demonstrate how these orders are parameterized: each algorithm has a unique set 
 parameters that it accepts; the parameters used in the unit test are the most 
 commonly used.
 
-To submit an order, call `SubmitOrder`:
+To submit an order, call `submitOrder`:
 
-```go
-params := map[string]string{
+```javascript
+algoParams = {
 	"target_seconds": "100",
 	"backfill":       "1.0",
 	"aggression":     "0.0",
 }
 
-resp, err := client.SubmitOrder(uid, "btc", "usd", "0.003", "", "rfxw", params)
+resp = rfClient.submitOrder("btc", "usd", "0.003", "", "rfxw", algoParams)
 ```
 
 This submits an algorithmic order to buy 0.003 BTC using USD via the RFXW trading
@@ -80,13 +82,13 @@ the `OrderId` field of `resp`. This ID can be used in subsequent calls to either
 the status of or cancel the order. For example:
 
 ```go
-status, err := client.GetOrderStatus(uid, resp.OrderId)
+status = rfClient.getOrderStatus(resp.OrderId)
 ```
 
 Or:
 
 ```go
-status, err := client.CancelOrder(uid, resp.OrderId)
+status = rfClient.cancelOrder(resp.OrderId)
 ```
 
 #### Handling numbers
@@ -97,17 +99,10 @@ precision).
 #### Important constants
 
 String identifiers are used to specify assets, trading venues, and side.
-These constants are provided in `costants.go`. Most importantly, there are:
+These constants are provided in `costants.js`. Most importantly, there are:
  
 - *Assets*: e.g. `Usd`, `Btc` 
 - *Trading venues*: e.g. `CoinbasePro`, `Binance`
 - *Side*: `SideBuy`, `SideSell`, `SideShort`, `SideCover`
 
-## Examples
 
-Examples are provided in the `examples` directory of this repository:
-
-- `data`: demonstrates how to fetch order book data and account balances using 
-  both the Core and DMA APIs.
-- `dma`: demonstrates how to use the DMA API to submit an order, watch it fill,
-  and expire it if it doesn't fill within five minutes.
