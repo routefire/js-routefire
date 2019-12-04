@@ -18,7 +18,7 @@ npm install js-routefire
 Simply import as normal: 
 
 ```javascript
-const Routefire = require("../index")
+const Routefire = require("js-routefire")
 ``` 
 
 ### Getting an account
@@ -105,4 +105,7 @@ These constants are provided in `costants.js`. Most importantly, there are:
 - *Trading venues*: e.g. `CoinbasePro`, `Binance`
 - *Side*: `SideBuy`, `SideSell`, `SideShort`, `SideCover`
 
+## Examples
+
+Examples are provided in the `examples` directory of this repository:
 
