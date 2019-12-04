@@ -162,7 +162,7 @@ class RoutefireClient {
             "order_params": orderParams
         };
 
-        const resp = await this.doPostRequest("/api/v1/orders/new", body);
+        const resp = await this.doPostRequest("/adapt/v1/orders/new", body);
         return resp
     }
 
@@ -175,7 +175,7 @@ class RoutefireClient {
         };
 
 
-        const resp = await this.doPostRequest("/api/v1/orders/status", body)
+        const resp = await this.doPostRequest("/adapt/v1/orders/status", body)
         return resp
     }
 
@@ -186,7 +186,7 @@ class RoutefireClient {
             "venue_order_id": venueOrdId, 
         };
 
-        const resp = await this.doPostRequest("/api/v1/orders/cancel", body)
+        const resp = await this.doPostRequest("/adapt/v1/orders/cancel", body)
         return resp
     }
 }
