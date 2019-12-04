@@ -5,7 +5,7 @@ class RoutefireClient {
     constructor(username, password, apiUrl = "https://routefire.io", apiVersion = "v1") {
         const instance = axios.create({
             baseURL: apiUrl,
-            timeout: 1000,
+            timeout: 5000,
             headers: {'Content-Type': 'application/json'}
         });
 
